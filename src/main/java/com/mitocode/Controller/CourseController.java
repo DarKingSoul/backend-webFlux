@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -44,6 +45,7 @@ public class CourseController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("@authorizeByRol.hasAccess()")
     @PostMapping(value = "/save")
     public Mono<ResponseEntity<CoursesDto>> saveStudent(@Valid @RequestBody CoursesDto course, final ServerHttpRequest request) {
         return courseService.save(this.convertToEntity(course))
@@ -73,6 +75,7 @@ public class CourseController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("@authorizeByRol.hasAccess()")
     @DeleteMapping(value = "/delete/{id}")
     public Mono<ResponseEntity<Object>> deleteStudent(@PathVariable("id") String id) {
         return courseService.delete(id)
