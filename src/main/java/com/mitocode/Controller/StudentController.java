@@ -25,7 +25,6 @@ public class StudentController {
     private final StudentServiceImpl studentService;
     private final ModelMapper modelMapper;
 
-    @PreAuthorize("@authorizeByRol.hasAccess()")
     @GetMapping(value = "/findAll")
     public Mono<ResponseEntity<Flux<StudentsDto>>> findAllStudents() {
         Flux<StudentsDto> studentFlux = studentService.findAll()
@@ -67,6 +66,7 @@ public class StudentController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("@authorizeByRol.hasAccess()")
     @PostMapping(value = "/save")
     public Mono<ResponseEntity<StudentsDto>> saveStudent(@Valid @RequestBody StudentsDto student, final ServerHttpRequest request) {
         return studentService.save(this.convertToEntity(student))
@@ -79,6 +79,7 @@ public class StudentController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("@authorizeByRol.hasAccess()")
     @PutMapping(value = "/update/{id}")
     public Mono<ResponseEntity<StudentsDto>> updateStudent(@Valid @PathVariable("id") String id, @RequestBody StudentsDto student) {
         return Mono.just(student)
@@ -96,6 +97,7 @@ public class StudentController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("@authorizeByRol.hasAccess()")
     @DeleteMapping(value = "/delete/{id}")
     public Mono<ResponseEntity<Object>> deleteStudent(@PathVariable("id") String id) {
         return studentService.delete(id)

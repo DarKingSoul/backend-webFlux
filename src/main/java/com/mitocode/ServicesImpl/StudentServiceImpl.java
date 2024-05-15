@@ -5,6 +5,7 @@ import com.mitocode.Repository.IGenericRepo;
 import com.mitocode.Repository.StudentRepository;
 import com.mitocode.Services.IStudentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
@@ -20,11 +21,11 @@ public class StudentServiceImpl extends CRUDImpl<Students, String> implements IS
     }
 
     public Flux<Students> findAllByAgeDesc() {
-        return studentRepository.findAllByAgeDesc();
+        return studentRepository.findAll(Sort.by(Sort.Order.desc("age")));
     }
 
     public Flux<Students> findAllByAgeAsc() {
-        return studentRepository.findAllByAgeAsc();
+        return studentRepository.findAll(Sort.by(Sort.Order.asc("age")));
     }
 
 }
